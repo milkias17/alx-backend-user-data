@@ -32,10 +32,13 @@ def check_requires_auth():
     requires_auth = auth.require_auth(
         request.path, ['/api/v1/status/',
                        '/api/v1/unauthorized/',
-                       '/api/v1/forbidden/'])
+                       '/api/v1/forbidden/',
+                       '/api/v1/auth_session/login/'
+                       ])
     if not requires_auth:
         return None
-    if not auth.authorization_header(request):
+    if not auth.authorization_header(request)\
+            and not auth.session_cookie(request):
         abort(401)
     user = auth.current_user(request)
     if not user:
