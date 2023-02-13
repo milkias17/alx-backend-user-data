@@ -51,7 +51,12 @@ class DB:
     def update_user(self, user_id: int, **values) -> None:
         """ Update the user in the user_id
         """
-        user = self.find_user_by(id=user_id)
+        user = None
+        try:
+            user = self.find_user_by(id=user_id)
+        except NoResultFound:
+            return
+
         for k, v in values.items():
             if k not in user.__dict__:
                 raise ValueError
