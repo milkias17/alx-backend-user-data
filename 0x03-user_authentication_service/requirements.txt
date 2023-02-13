@@ -1,0 +1,5 @@
+bcrypt==4.0.1
+greenlet==2.0.2
+SQLAlchemy==2.0.3
+types-SQLAlchemy==1.4.53.28
+typing_extensions==4.4.0
