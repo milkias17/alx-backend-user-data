@@ -7,7 +7,7 @@ from uuid import uuid4
 
 import bcrypt
 from db import DB
-from sqlalchemy.exc import NoResultFound
+from sqlalchemy.orm.exc import NoResultFound
 from user import User
 
 

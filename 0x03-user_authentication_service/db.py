@@ -5,6 +5,7 @@ DB module
 """
 
 from sqlalchemy import create_engine
+from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
@@ -18,7 +19,7 @@ class DB:
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db")
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -33,7 +34,7 @@ class DB:
         return self.__session
 
     def add_user(self, email: str, hashed_password: str) -> User:
-        """ Save user to database
+        """ Saves user to database
         """
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
@@ -43,6 +44,10 @@ class DB:
     def find_user_by(self, **filters) -> User:
         """ Find use based on provided filters
         """
+        for k in filters.keys():
+            if not hasattr(User, k):
+                raise InvalidRequestError
+
         user = self._session.query(User).filter_by(**filters).first()
         if user is None:
             raise NoResultFound
