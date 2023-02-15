@@ -6,7 +6,7 @@ Flask app
 
 from auth import Auth
 from flask import Flask, abort, jsonify, redirect, request
-from sqlalchemy.exc import NoResultFound
+from sqlalchemy.orm.exc import NoResultFound
 
 app = Flask(__name__)
 AUTH = Auth()
